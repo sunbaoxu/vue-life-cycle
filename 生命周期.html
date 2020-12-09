@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>生命周期</title>
+</head>
+<body>
+  <div id="app">
+    {{ message }}
+    <button @click="changeMeg">改变message</button>
+    <child ref="childId"></child>
+  </div>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    var app = new Vue({
+      // el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      },
+      components:{
+        'child' :{
+          'template':'<div>我是子组件</div>'
+        }
+      },
+      methods:{
+        changeMeg (){
+          this.message = '我被改变了'
+        }
+      },
+      beforeCreate (){
+        console.group('beforeCreate =======================')
+        console.log(this)
+        console.log(this.message)
+        console.log(this.$el)
+      },
+      created (){
+        console.group('created =======================')
+        console.log(this.message)
+        console.log(this.$el)
+      },
+      beforeMount (){
+        console.group('beforeMount ======================')
+        console.log(this.message)
+        console.log(this.$el)
+        console.log(this.$refs.childId)
+      },
+      mounted (){
+        console.group('mounted =======================')
+        console.log(this.message)
+        console.log(this.$el)
+      },
+      beforeUpdate (){
+        console.group('beforeUpdate =======================')
+        console.log(this.message)
+        this.message ='我在beforeUpdate里，再次被修改'
+      },
+      updated (){
+        console.group('updated =======================')
+        console.log(this.message)
+
+        // this.message ='我在updated 里，也尝试被修改'
+      },
+      beforeDestroy (){
+        console.group('beforeDestroy =======================')
+      },
+      destroyed (){
+        console.group('destroyed =======================')
+      }
+    })
+
+
+    app.$mount('#app')
+  </script>
+</body>
+</html>
